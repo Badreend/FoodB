@@ -1,7 +1,7 @@
 {
-  "name": "SecondLayer",
+  "name": "fobe",
   "version": "0.0.1",
-  "description": "De Monitor",
+  "description": "fo be ",
   "dependencies": {
     "express": "*",
     "jQuery": "^1.7.4",
@@ -11,6 +11,6 @@
     "socket.io": "*"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "4.6.0"
   }
 }
