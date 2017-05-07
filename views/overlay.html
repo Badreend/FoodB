@@ -774,6 +774,8 @@ span.svg {
 		$('.pollContainer').css('visibility','hidden');
 		socket.on('showPoll', function(_data){
 			if(_data.bool){
+
+				console.log('tik')
 				$(".pollLabelNameLeft").html(_data.nameLeft);
 				$(".pollLabelNameRight").html(_data.nameRight);
 
