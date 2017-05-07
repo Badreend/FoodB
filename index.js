@@ -79,8 +79,6 @@ function updateEmojiData(){
 
 
 
-app.set('views', __dirname + '/views');
-
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
@@ -94,8 +92,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Define routes.
-
 app.use(express.static(__dirname + '/public'));
+
+
+app.set('views', __dirname + '/views');
 
 // app.get('/', function(req, res){
 // 	res.render(__dirname + '/views/control_panel.html');
