@@ -776,6 +776,7 @@ span.svg {
 
 				var date = new Date(_data.time); 
 				$('.timer').countdown(date, function(event) {
+					console.log(date);
 					$(this).html(event.strftime('%M:%S'));
 				});
 				$('.pollContainer').css('visibility','visible');
