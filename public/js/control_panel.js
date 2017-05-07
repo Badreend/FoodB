@@ -47,6 +47,8 @@
   data.name = $('.tickerInputName').val();
   socket.emit('newTick', data);
   $('.tickerInput').val('');
+  $('.tickerInputName').val('');
+
   return false;
   
 

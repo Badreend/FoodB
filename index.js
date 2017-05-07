@@ -9,6 +9,33 @@ var $ = require('jquery');
 var _ = require('lodash');
 var request = require('request');
 
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var db = require('./db');
+
+passport.use(new Strategy(
+  function(username, password, cb) {
+    db.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false); }
+      if (user.password != password) { return cb(null, false); }
+      return cb(null, user);
+    });
+  }));
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  db.users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+
+
 
 
 var tickerList = [];
@@ -41,14 +68,87 @@ function updateEmojiData(){
 	getEmojiData();
 	io.emit('getEmojiData',emojiData);	
 }
+
+
+
+
+
+
+
+
+
+
+
+app.set('views', __dirname + '/views');
+
+// Use application-level middleware for common functionality, including
+// logging, parsing, and session handling.
+app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Define routes.
+
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res){
-	res.sendFile(__dirname + '/control_panel.html');
-});
+// app.get('/', function(req, res){
+// 	res.render(__dirname + '/views/control_panel.html');
+// });
 app.get('/overlay', function(req, res){
-	res.sendFile(__dirname + '/overlay.html');
+	res.sendFile(__dirname + '/views/overlay.html');
 });
+
+app.get('/',
+  function(req, res) {
+  	res.render(__dirname + '/views/home.ejs', { user: req.user });
+  });
+
+app.get('/login',
+  function(req, res){
+  	res.render(__dirname + '/views/login.ejs');
+  });
+  
+app.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+  
+app.get('/logout',
+  function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
+app.get('/controlpanel',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.sendFile(__dirname + '/views/control_panel.html', { user: req.user });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 io.on('connection', function(socket){

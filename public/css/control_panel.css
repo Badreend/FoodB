@@ -82,6 +82,11 @@
       outline:0;
       background-color:#fff;
     }   
+        .tickerInputName:focus {
+      color:#000;
+      outline:0;
+      background-color:#fff;
+    }   
     .msgInput button{
       color:#000;
       font-size:30px;
