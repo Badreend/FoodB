@@ -763,7 +763,6 @@ span.svg {
   src="https://code.jquery.com/jquery-2.2.0.js"
   integrity="sha256-oYqpLeqZe9cetUDV+TFiBZHp3uJ+X4F5eLs4W6uSTSE="
   crossorigin="anonymous"></script>
-  	<script type="text/javascript" src="plugins/jquery.countdown.js"></script>
 	<script type="text/javascript">
 		var socket = io();
 		var polltime = '23:59:56';
@@ -778,11 +777,12 @@ span.svg {
 				console.log('tik')
 				$(".pollLabelNameLeft").html(_data.nameLeft);
 				$(".pollLabelNameRight").html(_data.nameRight);
-
-				var date = new Date(_data.time); 
-				$('.timer').countdown(date, function(event) {
-					console.log(date);
-					$(this).html(event.strftime('%M:%S'));
+				$(document).ready(function() {
+					var date = new Date(_data.time); 
+					$('.timer').countdown(date, function(event) {
+						console.log(date);
+						$(this).html(event.strftime('%M:%S'));
+					});
 				});
 				$('.pollContainer').css('visibility','visible');
 				$('#tickerList').css('visibility','hidden');
@@ -931,6 +931,7 @@ span.svg {
 		initTicker();
 	</script>
 	<script type="text/javascript" src="js/likeFaces.js"></script>
+  	<script type="text/javascript" src="plugins/jquery.countdown.js"></script>
 
 </body>
 </html>
