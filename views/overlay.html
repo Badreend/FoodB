@@ -778,7 +778,13 @@ span.svg {
 				$(".pollLabelNameLeft").html(_data.nameLeft);
 				$(".pollLabelNameRight").html(_data.nameRight);
 				$(document).ready(function() {
-					var date = new Date(_data.time); 
+
+					function addMinutes(date, minutes) {
+						return new Date(date.getTime() + minutes*60000);
+					}
+					var newTime = addMinutes(new Date(),_data.minutes).toLocaleString();
+
+					var date = new Date(newTime); 
 					$('.timer').countdown(date, function(event) {
 						console.log(date);
 						$(this).html(event.strftime('%M:%S'));

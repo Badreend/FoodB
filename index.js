@@ -164,7 +164,7 @@ io.on('connection', function(socket){
 		var data = _data;
 		data.bool = _data.bool;
 		if(_data){
-			data.time = addMinutes(new Date(),_data.minutes).toLocaleString();
+			data.minutes = _data.minutes;
 			emojiData.baseline.love = emojiData.count.love;
 			emojiData.baseline.haha = emojiData.count.haha;
 			console.log(data);
@@ -183,9 +183,9 @@ io.on('connection', function(socket){
 	});
 
 
-		function addMinutes(date, minutes) {
-			return new Date(date.getTime() + minutes*60000);
-		}
+		// function addMinutes(date, minutes) {
+		// 	return new Date(date.getTime() + minutes*60000);
+		// }
 
 	socket.on('newTick', function(tick){
 		if(tick !== ' '){
